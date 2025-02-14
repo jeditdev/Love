@@ -5,226 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOVE</title>
     <style>
-        h1, p {
-            font-family: 'Hind', sans-serif;
-            margin: 0;
-        }
-
-        p {
-            text-indent: 50px;
-        }
-
-        h1 {
-            font-weight: 200;
-        }
-
         body {
             margin: 0;
             background-color: #fce4ec;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Hind', sans-serif;
         }
-
         .container {
             position: relative;
             width: 100%;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .heart {
-            position: absolute;
-            left: 50%;
-            top: 50%;
+            max-width: 600px;
             text-align: center;
-            transform: translate(-50%, -50%);
-            transition: transform 2s;
-            z-index: 1;
         }
-
-        .heart > img {
+        .heart {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .heart img {
             width: 50px;
-            height: auto;
+            transition: transform 0.2s;
         }
-
+        .heart img:hover {
+            transform: scale(1.2);
+        }
         .message {
-            padding: 20px;
-            background-color: #eee;
-            min-width: 400px;
-            max-width: 90%;
-            height: 50%;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 0;
+            width: 90%;
+            max-width: 400px;
+            height: 0;
             overflow: hidden;
-            animation-name: openmsg;
-            animation-duration: 2s;
-            animation-timing-function: linear;
-            animation-play-state: paused;
-            animation-fill-mode: forwards;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-            border-radius: 5px;
+            background: #eee;
+            margin: 20px auto;
+            padding: 0;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19);
+            transition: height 0.5s ease-in-out, padding 0.5s ease-in-out;
         }
-
-        .heart > img:hover {
-            animation-name: beat;
-            animation-duration: 2s;
-            animation-timing-function: ease-in-out;
-            animation-iteration-count: infinite;
-            animation-play-state: running;
+        .message.open {
+            height: auto;
+            padding: 20px;
         }
-
-        @keyframes beat {
-            0% { width: 50px; }
-            25% { width: 58px; }
-            30% { width: 50px; }
-            50% { width: 45px; }
-            60% { width: 50px; }
-            75% { width: 58px; }
-            100% { width: 50px; }
+        .message h1 {
+            font-size: 20px;
         }
-
-        @keyframes openmsg {
-            0% { height: 0px; padding: 0px 20px; }
-            100% { height: 75%; padding: 20px 20px; }
+        .message p {
+            font-size: 14px;
+            text-align: justify;
         }
-
-        @keyframes heartMove {
-            0% { top: 50%; }
-            100% { top: 85%; transform: translate(-50%, 0); }
-        }
-
-        .openNor {
-            animation-direction: normal;
-            animation-play-state: running;
-        }
-
-        .closeNor {
-            animation-direction: reverse;
-            animation-play-state: running;
-        }
-
-        .no-anim {
-            animation: none;
-        }
-
-        .closed {
-            height: 0px;
-            padding: 0px 20px;
-        }
-
-        .bottom {
-            bottom: 5px;
-        }
-
-        .openHer {
-            animation-name: heartMove;
-            animation-duration: 2s;
-            animation-timing-function: linear;
-            animation-play-state: running;
-            animation-fill-mode: forwards;
-        }
-
-        .closeHer {
-            animation-name: heartMove;
-            animation-duration: 2s;
-            animation-timing-function: linear;
-            animation-play-state: running;
-            animation-direction: reverse;
-            animation-fill-mode: forwards;
-        }
-
-        .beating > img {
-            animation-name: beat;
-            animation-duration: 2s;
-            animation-timing-function: ease-in-out;
-            animation-iteration-count: infinite;
-            animation-play-state: running;
-        }
-
-        .openedHer {
-            top: 85%;
-            transform: translate(-50%, 0);
-        }
-
-        /* Media Queries for Responsiveness */
-        @media (max-width: 768px) {
-            .message {
-                min-width: 300px;
-                height: 60%;
-            }
-
-            .heart > img {
-                width: 40px;
-            }
-        }
-
         @media (max-width: 480px) {
             .message {
-                min-width: 250px;
-                height: 70%;
+                width: 95%;
             }
-
-            .heart > img {
-                width: 35px;
+            .message h1 {
+                font-size: 18px;
             }
-
-            p {
-                text-indent: 30px;
+            .message p {
+                font-size: 12px;
+            }
+            .heart img {
+                width: 40px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <label>
-            <div class="heart">
-                <img src="https://raw.githubusercontent.com/DzarelDeveloper/Img/main/Lope.png">
-            </div>
-            <input id="messageState" type="checkbox" style="display:none">
-        </label>
-        <div class="message">
+        <div class="heart">
+            <img src="https://raw.githubusercontent.com/DzarelDeveloper/Img/main/Lope.png" id="heartIcon">
+        </div>
+        <div class="message" id="messageBox">
             <h1>Hello, Love</h1> 
-            <p>In such a short time, you've captured my heart in a way I never expected. These past 3 months have been nothing short of magical. Every smile, every laugh, every moment with you fills my heart with so much joy. I can’t wait for all the love and memories we’ll continue to share. You are my everything! 💕
-                <br><br>I treasure every moment with you and can’t wait to keep falling more in love with you each day. You are my greatest blessing! ❤️
-                <br><br>Three months ago, I never imagined I’d find someone as special as you. Now, I can't imagine my life without you. Happy Valentine’s Day, my love! 💕 You make my world brighter, my heart warmer, and my life so much better. I love you! 🌹
-                <br><br>This is our first Valentine’s, but it definitely won’t be our last! ❤️ Thank you for filling my life with so much happiness in these beautiful months. You are my love, my joy, and my forever Valentine. I adore you!
-                <br><br>Forever yours, Kristine Mae.
-            </p> 
+            <p>In such a short time, you've captured my heart in a way I never expected...<br><br>
+            Forever yours, Kristine Mae.</p>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $("#messageState").on("change", (x) => {
-            $(".message").removeClass("openNor").removeClass("closeNor");
-            if ($("#messageState").is(":checked")) {
-                $(".message").removeClass("closed").removeClass("no-anim").addClass("openNor");
-                $(".heart").removeClass("closeHer").removeClass("openedHer").addClass("openHer");
-                $(".container").stop().animate({"backgroundColor": "#f48fb1"}, 2000);
-                console.log("I Like You");
-            } else {
-                $(".message").removeClass("no-anim").addClass("closeNor");
-                $(".heart").removeClass("openHer").removeClass("openedHer").addClass("closeHer");
-                $(".container").stop().animate({"backgroundColor": "#fce4ec"}, 2000);
-                console.log("01010");
-            }
-        });
-
-        $(".message").on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function(e) {
-            console.log("I Like You");
-            if ($(".message").hasClass("closeNor"))
-                $(".message").addClass("closed");
-            $(".message").removeClass("openNor").removeClass("closeNor").addClass("no-anim");
-        });
-
-        $(".heart").on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function(e) {
-            console.log("I Like You");
-            if (!$(".heart").hasClass("closeHer"))
-                $(".heart").addClass("openedHer").addClass("beating");
-            else
-                $(".heart").addClass("no-anim").removeClass("beating");
-            $(".heart").removeClass("openHer").removeClass("closeHer");
+        document.getElementById("heartIcon").addEventListener("click", function() {
+            var messageBox = document.getElementById("messageBox");
+            messageBox.classList.toggle("open");
         });
     </script>
 </body>
